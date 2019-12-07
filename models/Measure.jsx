@@ -2,6 +2,7 @@
 // grab the things we need
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+var ObjectId = mongoose.Schema.Types.ObjectId;
 
 // create a schema
 const measureSchema = new Schema({
@@ -14,7 +15,7 @@ const measureSchema = new Schema({
 
 // the schema is useless so far
 // we need to create a model using it
-const Measure = mongoose.model('Measure', measureSchema);
+const Measure = mongoose.model('Measure', measureSchema,'Measure');
 
 // make this available to our users in our Node applications
 module.exports = Measure;
