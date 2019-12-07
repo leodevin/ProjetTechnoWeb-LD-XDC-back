@@ -3,7 +3,7 @@ var router = express.Router();
 // we import our user controller
 var sensor = require('../controllers/sensor.controller');
 
-/* GET one user */
+/* GET all sensors */
 router.get('/', sensor.findAll);
 
 module.exports = router;

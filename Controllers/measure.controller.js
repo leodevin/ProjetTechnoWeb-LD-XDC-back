@@ -1,5 +1,7 @@
 const Measure = require('../models/Measure.jsx');
 
+const {ObjectId} = require('mongodb');
+
 // Create and Save a new User
 exports.create = (req, res) => {
     // Validate request
@@ -11,12 +13,16 @@ exports.create = (req, res) => {
         });
     }
 
+    if (!ObjectId.isValid(req.body.measureId)) {
+        return Promise.reject(new TypeError(`Invalid id: ${req.body.measureId}`));
+    }
+
     // Create a new User
     const measure = new Measure({
-        _id: req.body._id,
+        _id: ObjectId(req.body.measureId),
         type: req.body.type,
         creationDate: req.body.creationDate,
-        sensorID: req.body.sensorID,
+        sensorID: ObjectId(req.body.sensorID),
         value: req.body.value
     });
 
@@ -82,14 +88,18 @@ exports.update = (req, res) => {
         });
     }
 
+    if (!ObjectId.isValid(req.body.measureId)) {
+        return Promise.reject(new TypeError(`Invalid id: ${req.body.measureId}`));
+    }
+
     // Find user and update it with the request body
     Measure.findByIdAndUpdate(
         req.params.measureId,
         {
-            _id: req.body._id,
+            _id: ObjectId(req.body.measureId),
             type: req.body.type,
             creationDate: req.body.creationDate,
-            sensorID: req.body.sensorID,
+            sensorID: ObjectId(req.body.sensorID),
             value: req.body.value
         }
     )

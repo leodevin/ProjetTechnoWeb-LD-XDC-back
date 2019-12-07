@@ -1,4 +1,7 @@
 const User = require('../models/User.jsx');
+const Sensor = require('../models/Sensor.jsx');
+
+const {ObjectId} = require('mongodb');
 
 // Create and Save a new User
 exports.create = (req, res) => {
@@ -11,9 +14,13 @@ exports.create = (req, res) => {
         });
     }
 
+    if (!ObjectId.isValid(req.body.userId)) {
+        return Promise.reject(new TypeError(`Invalid id: ${req.body.userId}`));
+    }
+
     // Create a new User
     const user = new User({
-        _id: req.body.userId,
+        _id: ObjectId(req.body.userId),
         location: req.body.location,
         personsInHouse: req.body.personsInHouse,
         houseSize: req.body.houseSize
@@ -71,6 +78,29 @@ exports.findOne = (req, res) => {
         });
 };
 
+// Find a single User with a UserId
+exports.findSensorsByUserId= (req, res) => {
+    Sensor.find({userID: req.params.userId})
+        .then(sensors => {
+            if (!sensors) {
+                return res.status(404).send({
+                    message: 'Sensors not found with User id ' + req.params.userId
+                });
+            }
+            res.send(sensors);
+        })
+        .catch(err => {
+            if (err.kind === 'ObjectId') {
+                return res.status(404).send({
+                    message: 'User not found with id ' + req.params.userId
+                });
+            }
+            return res.status(500).send({
+                message: 'Error retrieving user with id ' + req.params.userId
+            });
+        });
+};
+
 // Update a User identified by the UserId in the request
 exports.update = (req, res) => {
     // Validate Request
@@ -80,11 +110,15 @@ exports.update = (req, res) => {
         });
     }
 
+    if (!ObjectId.isValid(req.body.userId)) {
+        return Promise.reject(new TypeError(`Invalid id: ${req.body.userId}`));
+    }
+
     // Find user and update it with the request body
     User.findByIdAndUpdate(
         req.params.userId,
         {
-            _id: req.body.userId,
+            _id: ObjectId(req.body.userId),
             location: req.body.location,
             personsInHouse: req.body.personsInHouse,
             houseSize: req.body.houseSize

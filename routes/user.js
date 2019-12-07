@@ -12,4 +12,8 @@ router.put('/:userId', user.update);
 /* DELETE  one user */
 router.delete('/:userId', user.delete);
 
+/* GET sensors from one user */
+router.get('/:userId/sensors', user.findSensorsByUserId);
+
+
 module.exports = router;
