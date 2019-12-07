@@ -3,13 +3,16 @@ var router = express.Router();
 // we import our user controller
 var sensor = require('../controllers/sensor.controller');
 
-/* GET one user */
+/* GET one sensor */
 router.get('/:sensorId', sensor.findOne);
-/* create  one user */
+/* create  one sensor */
 router.post('/', sensor.create);
-/* update  one user */
+/* update  one sensor */
 router.put('/:sensorId', sensor.update);
-/* DELETE  one user */
+/* DELETE  one sensor */
 router.delete('/:sensorId', sensor.delete);
+
+/* GET measures from one sensor */
+router.get('/:sensorId/measures', sensor.findMeasuresBySensorId);
 
 module.exports = router;

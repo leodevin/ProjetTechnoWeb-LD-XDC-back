@@ -1,4 +1,7 @@
 const Sensor = require('../models/Sensor.jsx');
+const Measure = require('../models/Measure.jsx');
+
+const {ObjectId} = require('mongodb');
 
 // Create and Save a new User
 exports.create = (req, res) => {
@@ -11,12 +14,16 @@ exports.create = (req, res) => {
         });
     }
 
+    if (!ObjectId.isValid(req.body.sensorId)) {
+        return Promise.reject(new TypeError(`Invalid id: ${req.body.sensorId}`));
+    }
+
     // Create a new User
     const sensor = new Sensor({
-        _id: req.body._id,
+        _id: ObjectId(req.body.sensorId),
         creationDate: req.body.creationDate,
         location: req.body.location,
-        userID: req.body.userID
+        userID: ObjectId(req.body.userID)
     });
 
     // Save User in the database
@@ -71,6 +78,32 @@ exports.findOne = (req, res) => {
         });
 };
 
+// Find a single User with a UserId
+exports.findMeasuresBySensorId = (req, res) => {
+    Measure.find({sensorID: req.params.sensorId})
+        .then(measures => {
+            if (!measures) {
+                return res.status(404).send({
+                    message: 'Measures not found with Sensor id ' + req.params.sensorId
+                });
+            }
+            res.send(measures);
+        })
+        .catch(err => {
+            if (err.kind === 'ObjectId') {
+                return res.status(404).send({
+                    message: 'Sensor not found with id ' + req.params.sensorId
+                });
+            }
+            return res.status(500).send({
+                message: 'Error retrieving Sensor with id ' + req.params.sensorId
+            });
+        });
+};
+
+
+
+
 
 // Update a User identified by the UserId in the request
 exports.update = (req, res) => {
@@ -81,14 +114,18 @@ exports.update = (req, res) => {
         });
     }
 
+    if (!ObjectId.isValid(req.body.sensorId)) {
+        return Promise.reject(new TypeError(`Invalid id: ${req.body.sensorId}`));
+    }
+
     // Find user and update it with the request body
     Sensor.findByIdAndUpdate(
         req.params.sensorId,
         {
-            _id: req.body._id,
+            _id: ObjectId(req.body.sensorId),
             creationDate: req.body.creationDate,
             location: req.body.location,
-            userID: req.body.userID
+            userID: ObjectId(req.body.userID)
         }
     )
         .then(sensor => {
