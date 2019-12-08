@@ -14,6 +14,14 @@ router.delete('/:userId', user.delete);
 
 /* GET sensors from one user */
 router.get('/:userId/sensors', user.findSensorsByUserId);
+/* GET measures from one user */
+router.get('/:userId/measures', user.findMeasuresByUserId);
+/* GET all humidity measures from one user */
+router.get('/:userId/humidities', user.findHumiditiesByUserId);
+/* GET all temperatures measures from one user */
+router.get('/:userId/temperatures', user.findTemperaturesByUserId);
+/* GET all humidity measures from one user */
+router.get('/:userId/airPollutions', user.findAirPollutionsByUserId);
 
 
 module.exports = router;

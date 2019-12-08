@@ -1,5 +1,6 @@
 const User = require('../models/User.jsx');
 const Sensor = require('../models/Sensor.jsx');
+const Measure = require('../models/Measure.jsx');
 
 const {ObjectId} = require('mongodb');
 
@@ -101,6 +102,178 @@ exports.findSensorsByUserId= (req, res) => {
         });
 };
 
+//Find all the measures with a UserId
+exports.findMeasuresByUserId= (req, res) => {
+    Sensor.find({userID: req.params.userId})
+        .then(sensors => {
+            if (!sensors) {
+                return res.status(404).send({
+                    message: 'Sensors not found with User id ' + req.params.userId
+                });
+            }
+            sensors.forEach(sensor => {
+                Measure.find({sensorID: sensor._id})
+                    .then(measures => {
+                        if (!measures) {
+                            return res.status(404).send({
+                                message: 'Measures not found with Sensor id ' + req.params.sensorId
+                            });
+                        }
+                        res.send(measures);
+                    })
+                    .catch(err => {
+                        if (err.kind === 'ObjectId') {
+                            return res.status(404).send({
+                                message: 'Sensor not found with id ' + req.params.sensorId
+                            });
+                        }
+                        return res.status(500).send({
+                            message: 'Error retrieving Sensor with id ' + req.params.sensorId
+                        });
+                    });
+            });
+        })
+        .catch(err => {
+            if (err.kind === 'ObjectId') {
+                return res.status(404).send({
+                    message: 'User not found with id ' + req.params.userId
+                });
+            }
+            return res.status(500).send({
+                message: 'Error retrieving user with id ' + req.params.userId
+            });
+        });
+};
+
+//Find all the humidities measures with a UserId
+exports.findHumiditiesByUserId= (req, res) => {
+    Sensor.find({userID: req.params.userId})
+        .then(sensors => {
+            if (!sensors) {
+                return res.status(404).send({
+                    message: 'Sensors not found with User id ' + req.params.userId
+                });
+            }
+            sensors.forEach(sensor => {
+                Measure.find({sensorID: sensor._id, type: "humidity"})
+                    .then(measures => {
+                        if (!measures) {
+                            return res.status(404).send({
+                                message: 'Measures of humidity not found with Sensor id ' + req.params.sensorId
+                            });
+                        }
+                        res.send(measures);
+                    })
+                    .catch(err => {
+                        if (err.kind === 'ObjectId') {
+                            return res.status(404).send({
+                                message: 'Sensor not found with id ' + req.params.sensorId
+                            });
+                        }
+                        return res.status(500).send({
+                            message: 'Error retrieving Sensor with id ' + req.params.sensorId
+                        });
+                    });
+            });
+        })
+        .catch(err => {
+            if (err.kind === 'ObjectId') {
+                return res.status(404).send({
+                    message: 'User not found with id ' + req.params.userId
+                });
+            }
+            return res.status(500).send({
+                message: 'Error retrieving user with id ' + req.params.userId
+            });
+        });
+};
+
+//Find all the temperatures measures with a UserId
+exports.findTemperaturesByUserId= (req, res) => {
+    Sensor.find({userID: req.params.userId})
+        .then(sensors => {
+            if (!sensors) {
+                return res.status(404).send({
+                    message: 'Sensors not found with User id ' + req.params.userId
+                });
+            }
+            sensors.forEach(sensor => {
+                Measure.find({sensorID: sensor._id, type: "temperature"})
+                    .then(measures => {
+                        if (!measures) {
+                            return res.status(404).send({
+                                message: 'Measures of humidity not found with Sensor id ' + req.params.sensorId
+                            });
+                        }
+                        res.send(measures);
+                    })
+                    .catch(err => {
+                        if (err.kind === 'ObjectId') {
+                            return res.status(404).send({
+                                message: 'Sensor not found with id ' + req.params.sensorId
+                            });
+                        }
+                        return res.status(500).send({
+                            message: 'Error retrieving Sensor with id ' + req.params.sensorId
+                        });
+                    });
+            });
+        })
+        .catch(err => {
+            if (err.kind === 'ObjectId') {
+                return res.status(404).send({
+                    message: 'User not found with id ' + req.params.userId
+                });
+            }
+            return res.status(500).send({
+                message: 'Error retrieving user with id ' + req.params.userId
+            });
+        });
+};
+
+//Find all the airPollutions measures with a UserId
+exports.findAirPollutionsByUserId= (req, res) => {
+    Sensor.find({userID: req.params.userId})
+        .then(sensors => {
+            if (!sensors) {
+                return res.status(404).send({
+                    message: 'Sensors not found with User id ' + req.params.userId
+                });
+            }
+            sensors.forEach(sensor => {
+                Measure.find({sensorID: sensor._id, type: "airPollution"})
+                    .then(measures => {
+                        if (!measures) {
+                            return res.status(404).send({
+                                message: 'Measures of humidity not found with Sensor id ' + req.params.sensorId
+                            });
+                        }
+                        res.send(measures);
+                    })
+                    .catch(err => {
+                        if (err.kind === 'ObjectId') {
+                            return res.status(404).send({
+                                message: 'Sensor not found with id ' + req.params.sensorId
+                            });
+                        }
+                        return res.status(500).send({
+                            message: 'Error retrieving Sensor with id ' + req.params.sensorId
+                        });
+                    });
+            });
+        })
+        .catch(err => {
+            if (err.kind === 'ObjectId') {
+                return res.status(404).send({
+                    message: 'User not found with id ' + req.params.userId
+                });
+            }
+            return res.status(500).send({
+                message: 'Error retrieving user with id ' + req.params.userId
+            });
+        });
+};
+
 // Update a User identified by the UserId in the request
 exports.update = (req, res) => {
     // Validate Request
@@ -143,7 +316,6 @@ exports.update = (req, res) => {
             });
         });
 };
-
 
 // Delete a User with the specified UserId in the request
 exports.delete = (req, res) => {
