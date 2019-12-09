@@ -102,8 +102,10 @@ exports.findSensorsByUserId= (req, res) => {
         });
 };
 
+/*
 //Find all the measures with a UserId
 exports.findMeasuresByUserId= (req, res) => {
+    var capteurs;
     Sensor.find({userID: req.params.userId})
         .then(sensors => {
             if (!sensors) {
@@ -111,27 +113,28 @@ exports.findMeasuresByUserId= (req, res) => {
                     message: 'Sensors not found with User id ' + req.params.userId
                 });
             }
-            sensors.forEach(sensor => {
-                Measure.find({sensorID: sensor._id})
-                    .then(measures => {
-                        if (!measures) {
-                            return res.status(404).send({
-                                message: 'Measures not found with Sensor id ' + req.params.sensorId
-                            });
-                        }
-                        res.send(measures);
-                    })
-                    .catch(err => {
-                        if (err.kind === 'ObjectId') {
-                            return res.status(404).send({
-                                message: 'Sensor not found with id ' + req.params.sensorId
-                            });
-                        }
-                        return res.status(500).send({
-                            message: 'Error retrieving Sensor with id ' + req.params.sensorId
-                        });
-                    });
+            capteurs=sensors;
+        })
+        .catch(err => {
+            if (err.kind === 'ObjectId') {
+                return res.status(404).send({
+                    message: 'User not found with id ' + req.params.userId
+                });
+            }
+            return res.status(500).send({
+                message: 'Error retrieving user with id ' + req.params.userId
             });
+        });
+
+
+    Measure.find({userID: req.params.userId})
+        .then(measures => {
+            if (!measures) {
+                return res.status(404).send({
+                    message: 'Measures not found with User id ' + req.params.userId
+                });
+            }
+            capteurs=sensors;
         })
         .catch(err => {
             if (err.kind === 'ObjectId') {
@@ -154,6 +157,7 @@ exports.findHumiditiesByUserId= (req, res) => {
                     message: 'Sensors not found with User id ' + req.params.userId
                 });
             }
+            let humis;
             sensors.forEach(sensor => {
                 Measure.find({sensorID: sensor._id, type: "humidity"})
                     .then(measures => {
@@ -162,7 +166,7 @@ exports.findHumiditiesByUserId= (req, res) => {
                                 message: 'Measures of humidity not found with Sensor id ' + req.params.sensorId
                             });
                         }
-                        res.send(measures);
+                        humis += measures;
                     })
                     .catch(err => {
                         if (err.kind === 'ObjectId') {
@@ -175,6 +179,7 @@ exports.findHumiditiesByUserId= (req, res) => {
                         });
                     });
             });
+            res.send(humis);
         })
         .catch(err => {
             if (err.kind === 'ObjectId') {
@@ -197,6 +202,7 @@ exports.findTemperaturesByUserId= (req, res) => {
                     message: 'Sensors not found with User id ' + req.params.userId
                 });
             }
+            let temps;
             sensors.forEach(sensor => {
                 Measure.find({sensorID: sensor._id, type: "temperature"})
                     .then(measures => {
@@ -205,7 +211,7 @@ exports.findTemperaturesByUserId= (req, res) => {
                                 message: 'Measures of humidity not found with Sensor id ' + req.params.sensorId
                             });
                         }
-                        res.send(measures);
+                        temps += measures;
                     })
                     .catch(err => {
                         if (err.kind === 'ObjectId') {
@@ -218,6 +224,7 @@ exports.findTemperaturesByUserId= (req, res) => {
                         });
                     });
             });
+            res.send(temps);
         })
         .catch(err => {
             if (err.kind === 'ObjectId') {
@@ -271,8 +278,9 @@ exports.findAirPollutionsByUserId= (req, res) => {
             return res.status(500).send({
                 message: 'Error retrieving user with id ' + req.params.userId
             });
-        });
-};
+
+
+ */
 
 // Update a User identified by the UserId in the request
 exports.update = (req, res) => {
