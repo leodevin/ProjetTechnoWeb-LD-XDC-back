@@ -123,7 +123,8 @@ exports.update = (req, res) => {
             location: req.body.location,
             personsInHouse: req.body.personsInHouse,
             houseSize: req.body.houseSize
-        }
+        },
+        { new: true }
     )
         .then(user => {
             if (!user) {
@@ -167,5 +168,3 @@ exports.delete = (req, res) => {
             });
         });
 };
-
-

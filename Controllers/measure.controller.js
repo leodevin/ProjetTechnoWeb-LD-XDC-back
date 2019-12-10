@@ -78,7 +78,6 @@ exports.findOne = (req, res) => {
         });
 };
 
-
 // Update a User identified by the UserId in the request
 exports.update = (req, res) => {
     // Validate Request

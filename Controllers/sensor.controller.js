@@ -101,10 +101,6 @@ exports.findMeasuresBySensorId = (req, res) => {
         });
 };
 
-
-
-
-
 // Update a User identified by the UserId in the request
 exports.update = (req, res) => {
     // Validate Request
@@ -147,7 +143,6 @@ exports.update = (req, res) => {
             });
         });
 };
-
 
 // Delete a User with the specified UserId in the request
 exports.delete = (req, res) => {
