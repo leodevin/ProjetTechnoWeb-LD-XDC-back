@@ -1,6 +1,5 @@
 const User = require('../models/User.jsx');
 const Sensor = require('../models/Sensor.jsx');
-const Measure = require('../models/Measure.jsx');
 
 const {ObjectId} = require('mongodb');
 

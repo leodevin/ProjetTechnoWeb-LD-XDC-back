@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 // we import our user controller
-var user = require('../Controllers/user.controller.js');
+var user = require("../Controllers/user.controller");
 
 /* GET one user */
 router.get('/:userId', user.findOne);

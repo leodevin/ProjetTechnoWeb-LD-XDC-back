@@ -10,7 +10,7 @@ mongoose.connect(config.url, {useNewUrlParser: true});
 const app = express();
 
 const indexRouter = require("./routes/index");
-const userRouter = require('./routes/user');
+const userRouter = require("./routes/user");
 const usersRouter = require("./routes/users");
 const sensorRouter = require("./routes/sensor");
 const sensorsRouter = require("./routes/sensors");
