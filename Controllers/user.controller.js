@@ -1,6 +1,5 @@
 const User = require('../models/User.jsx');
 const Sensor = require('../models/Sensor.jsx');
-
 const {ObjectId} = require('mongodb');
 
 // Create and Save a new User
