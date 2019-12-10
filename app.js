@@ -8,7 +8,6 @@ const cors = require('cors');
 
 mongoose.connect(config.url, {useNewUrlParser: true});
 const app = express();
-app.use(cors());
 
 const indexRouter = require("./routes/index");
 const userRouter = require('./routes/user');
@@ -23,6 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
 
 const db = mongoose.connection;
 db.once('open', () => console.log('connected to the fucking  database'));
